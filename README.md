@@ -25,3 +25,38 @@ samples, guidance on mobile development, and a full API reference.
 
 
 
+  getRegister() async {
+    var map = Map<String, dynamic>();
+    map["name"] = NameController.text.toString();
+    map["email"] = emailController.text.toString();
+    map["password"] = passwordController.text.toString();
+    map["password_confi rmation"] = rePasswordController.text.toString();
+
+    var responce = await http.post(
+        Uri.parse(
+            "https://apihomechef.antopolis.xyz/api/admin/create/new/admin"),
+        body: map,
+        headers: CustomeHttpRequest.defaultHeader);
+
+    print("${responce.body}");
+    showToast("Failed");
+
+    final data = jsonDecode(responce.body);
+    if (responce.statusCode == 201) {
+      showToast("Registration is Succesfull");
+    } else {
+      showToast("Registration Failed");
+    }
+  }
+  
+  class CustomeHttpRequest {
+  static const Map<String, String> defaultHeader = {
+    "Accept": "application/json",
+    "Authorization":
+        "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpaG9tZWNoZWYuYW50b3BvbGlzLnh5elwvYXBpXC9hZG1pblwvc2lnbi1pbiIsImlhdCI6MTY1NDAwNzYwNiwiZXhwIjoxNjY2OTY3NjA2LCJuYmYiOjE2NTQwMDc2MDYsImp0aSI6IjlLWGFGNmRFdlgwWVNZVzIiLCJzdWIiOjUwLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.Cbii274lgjkMIf2Ix9fZ7e8HPAT47B5MV0QP03Rd520",
+  };
+}
+
+
+
+
